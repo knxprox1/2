@@ -67,6 +67,8 @@ button:focus-visible,.pkg-card:focus-visible{border-radius:var(--radius-sm);}
 .section-title{letter-spacing:-.01em;}
 .welcome-hero p{max-width:34rem;margin-inline:auto;margin-bottom:24px;}
 .chip{min-height:38px;}
+.trust-strip{display:flex;align-items:stretch;justify-content:space-between;gap:10px;margin-top:14px;padding:10px;border:1px solid var(--border-gold);border-radius:var(--radius-md);background:var(--glass);box-shadow:var(--shadow-soft);}
+.trust-strip .chip{flex:1;justify-content:center;padding:8px 9px;background:var(--glass-strong);font-size:11px;white-space:nowrap;}
 .btn{min-height:52px;}
 .pkg-card{min-height:170px;}
 .pkg-card[aria-checked="true"]{border-color:var(--gold-2);}
@@ -80,6 +82,8 @@ button:focus-visible,.pkg-card:focus-visible{border-radius:var(--radius-sm);}
   .welcome-hero p{font-size:13.5px;}
   .chip-row{gap:8px;}
   .chip{padding:8px 11px;font-size:11px;}
+  .trust-strip{gap:6px;margin-top:12px;padding:7px;}
+  .trust-strip .chip{padding:7px 4px;font-size:10px;gap:4px;}
   .auth-card{padding:20px 16px;}
   .pkg-scroll{padding-inline:2px 10px;}
   .pkg-card{flex-basis:148px;}
@@ -388,6 +392,7 @@ button:focus-visible,.pkg-card:focus-visible{border-radius:var(--radius-sm);}
   .welcome-hero h1{font-size:28px;}
   .welcome-hero p{font-size:15px;max-width:31rem;}
   .chip{padding:10px 15px;}
+  .trust-strip{margin-top:16px;}
   .auth-card{padding:28px 26px;}
   .pkg-scroll{gap:16px;}
   .pkg-card{flex-basis:160px;}
@@ -462,16 +467,16 @@ button:focus-visible,.pkg-card:focus-visible{border-radius:var(--radius-sm);}
       </div>
       <h1>مرحبًا بك في الأسطورة</h1>
       <p>استمتع بتجربة اتصال إنترنت فاخرة وسريعة، مصممة خصيصًا لراحتك. اضغط أدناه للبدء في تسجيل الدخول إلى الشبكة.</p>
-      <div class="chip-row">
-        <div class="chip"><i class="fa-solid fa-gauge-high"></i> سرعة فائقة</div>
-        <div class="chip"><i class="fa-solid fa-shield-halved"></i> اتصال آمن</div>
-        <div class="chip"><i class="fa-solid fa-headset"></i> دعم فوري</div>
-      </div>
     </div>
     <div style="flex:1;min-height:26px;"></div>
     <button class="btn btn-primary btn-block" id="startBtn" data-testid="welcome-cta-button">
       ابدأ الاتصال الآن <i class="fa-solid fa-arrow-left"></i>
     </button>
+    <div class="trust-strip" aria-label="مزايا الاتصال">
+      <div class="chip"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> سرعة فائقة</div>
+      <div class="chip"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> اتصال آمن</div>
+      <div class="chip"><i class="fa-solid fa-headset" aria-hidden="true"></i> دعم فوري</div>
+    </div>
   </div>
 </div>
 
@@ -698,7 +703,7 @@ function updateHeaderFor(id){
   const header = qs('brandHeader');
   const backBtn = qs('headerBackBtn');
   const pill = qs('networkPill');
-  if(id === 'view-splash' || id === 'view-connecting' || id === 'view-success' || id === 'view-failure'){
+  if(id === 'view-splash' || id === 'view-welcome' || id === 'view-connecting' || id === 'view-success' || id === 'view-failure'){
     header.classList.add('hidden');
     return;
   }
