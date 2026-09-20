@@ -59,6 +59,35 @@ input{font-family:inherit;}
 ::selection{background:var(--gold-4);color:var(--ink);}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;}
 
+/* ===== Arabic UX refinements ===== */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:4px;}
+button:focus-visible,.pkg-card:focus-visible{border-radius:var(--radius-sm);}
+.view-inner{scroll-margin-top:72px;}
+.section-title{letter-spacing:-.01em;}
+.welcome-hero p{max-width:34rem;margin-inline:auto;margin-bottom:24px;}
+.chip{min-height:38px;}
+.btn{min-height:52px;}
+.pkg-card{min-height:170px;}
+.pkg-card[aria-checked="true"]{border-color:var(--gold-2);}
+.field-input-row input{min-width:0;}
+.modal-card{isolation:isolate;}
+
+@media (max-width:599px){
+  .view-inner{padding:16px 16px calc(28px + env(safe-area-inset-bottom));}
+  .welcome-hero{margin-top:12px;padding:24px 18px 26px;}
+  .welcome-hero h1{font-size:22px;}
+  .welcome-hero p{font-size:13.5px;}
+  .chip-row{gap:8px;}
+  .chip{padding:8px 11px;font-size:11px;}
+  .auth-card{padding:20px 16px;}
+  .pkg-scroll{padding-inline:2px 10px;}
+  .pkg-card{flex-basis:148px;}
+  #view-connecting,#view-success,#view-failure{padding-inline:16px;}
+  .modal-btn-row{flex-direction:column-reverse;}
+  .modal-btn-row .btn{width:100%;}
+}
+
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important;}
 }
@@ -390,7 +419,7 @@ input{font-family:inherit;}
   </defs>
 </svg>
 
-<div id="toast-container" data-testid="toast-container"></div>
+<div id="toast-container" data-testid="toast-container" aria-live="polite" aria-atomic="true"></div>
 
 <!-- Splash -->
 <div class="view active" id="view-splash" data-testid="view-splash">
@@ -408,7 +437,7 @@ input{font-family:inherit;}
 <div class="desktop-side">
   <div class="side-logo"><i class="fa-solid fa-wifi"></i></div>
   <h2>الأسطورة</h2>
-  <div class="side-tag">اتصال إنترنت فاخر وسريع بتصميم استثنائي، مصمم خصيصًا لعملاء ALOSTOURA</div>
+  <p class="side-tag">اتصال إنترنت فاخر وسريع بتصميم استثنائي، مصمم خصيصًا لعملاء ALOSTOURA</p>
   <div class="side-stats">
     <div class="side-stat"><i class="fa-solid fa-users"></i><div><div class="ss-value" id="sideLiveUsers">128</div><div class="ss-label">متصلون الآن</div></div></div>
     <div class="side-stat"><i class="fa-solid fa-gauge-high"></i><div><div class="ss-value">120 <small style="font-size:11px;">Mbps</small></div><div class="ss-label">سرعة الشبكة القصوى</div></div></div>
@@ -423,7 +452,7 @@ input{font-family:inherit;}
     <div class="brand-icon"><i class="fa-solid fa-wifi"></i></div>
     <div class="brand-text"><span class="ar">الأسطورة</span><span class="en">ALOSTOURA</span></div>
   </div>
-  <div class="network-pill" id="networkPill" data-testid="network-name-pill" style="display:none;"><i class="fa-solid fa-circle"></i> ALOSTOURA_5G</div>
+  <div class="network-pill" id="networkPill" data-testid="network-name-pill" style="display:none;" aria-label="الشبكة الحالية"><i class="fa-solid fa-circle"></i> ALOSTOURA_5G</div>
 </header>
 
 <!-- Welcome -->
@@ -452,10 +481,10 @@ input{font-family:inherit;}
 <!-- Auth -->
 <div class="view" id="view-auth" data-testid="view-auth">
   <div class="view-inner">
-    <div class="section-title reveal"><i class="fa-solid fa-crown"></i> اختر باقتك</div>
-    <div class="pkg-scroll" id="pkgScroll" data-testid="package-list"></div>
+    <h2 class="section-title reveal"><i class="fa-solid fa-crown" aria-hidden="true"></i> اختر باقتك</h2>
+    <div class="pkg-scroll" id="pkgScroll" data-testid="package-list" role="radiogroup" aria-label="الباقات المتاحة"></div>
 
-    <div class="section-title reveal"><i class="fa-solid fa-key"></i> تسجيل الدخول بكود الوصول</div>
+    <h2 class="section-title reveal"><i class="fa-solid fa-key" aria-hidden="true"></i> تسجيل الدخول بكود الوصول</h2>
     <div class="auth-card reveal">
       <div class="error-banner" id="errorBanner" data-testid="auth-error-banner">
         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -464,11 +493,12 @@ input{font-family:inherit;}
       <div class="field" id="codeField">
         <div class="field-input-row">
           <i class="fa-solid fa-lock fi-icon"></i>
-          <input type="password" id="codeInput" data-testid="access-code-input" placeholder="أدخل كود الدخول" maxlength="20" autocomplete="off">
+          <label class="sr-only" for="codeInput">كود الدخول</label>
+          <input type="password" id="codeInput" data-testid="access-code-input" placeholder="أدخل كود الدخول" maxlength="20" autocomplete="off" aria-describedby="codeHelp codeErrorMsg">
           <span class="field-status-icon" id="codeStatusIcon"></span>
           <button type="button" class="field-toggle" id="toggleCodeVisibility" data-testid="toggle-code-visibility-button"><i class="fa-solid fa-eye"></i></button>
         </div>
-        <div class="field-help">جرّب الكود: <b>LEGEND24</b> — أو اكتب <b>FAIL</b> لتجربة حالة الفشل</div>
+        <div class="field-help" id="codeHelp">جرّب الكود: <b>LEGEND24</b> — أو اكتب <b>FAIL</b> لتجربة حالة الفشل</div>
         <div class="field-error-msg" id="codeErrorMsg"><i class="fa-solid fa-circle-exclamation"></i> يجب ألا يقل الكود عن 4 أحرف</div>
       </div>
       <button class="btn btn-primary btn-block" id="submitBtn" data-testid="submit-login-button" disabled>
@@ -490,7 +520,7 @@ input{font-family:inherit;}
       <div class="ring-percent"><span id="connectPercent">0</span><small>%</small></div>
     </div>
   </div>
-  <div class="connecting-status" id="connectingStatus" data-testid="connecting-status-text">التحقق من كود الدخول...</div>
+  <div class="connecting-status" id="connectingStatus" data-testid="connecting-status-text" aria-live="polite">التحقق من كود الدخول...</div>
   <div class="connecting-sub">قد يستغرق ذلك لحظات قصيرة</div>
 </div>
 
@@ -523,8 +553,8 @@ input{font-family:inherit;}
 <div class="view" id="view-session" data-testid="view-session">
   <div class="view-inner">
     <div class="status-strip reveal">
-      <div class="connected-badge" data-testid="connected-badge"><span class="pulse-dot"></span> متصل الآن</div>
-      <div class="signal-bars" data-testid="signal-bars"><span></span><span></span><span></span><span></span></div>
+      <div class="connected-badge" data-testid="connected-badge"><span class="pulse-dot" aria-hidden="true"></span> متصل الآن</div>
+      <div class="signal-bars" data-testid="signal-bars" aria-label="إشارة الشبكة ممتازة" role="img"><span></span><span></span><span></span><span></span></div>
     </div>
 
     <div class="session-hero reveal">
@@ -697,6 +727,10 @@ PACKAGES.forEach(pkg=>{
   card.className = 'pkg-card' + (pkg.id === state.selectedPkgId ? ' selected' : '');
   card.setAttribute('data-testid', 'package-card-' + pkg.id);
   card.setAttribute('data-pkg', pkg.id);
+  card.setAttribute('role', 'radio');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-checked', pkg.id === state.selectedPkgId ? 'true' : 'false');
+  card.setAttribute('aria-label', pkg.name + ' — ' + pkg.duration + (pkg.price === 'مجانًا' ? ' — مجانًا' : ' — ' + pkg.price + ' ' + pkg.currency));
   card.innerHTML =
     (pkg.badge ? '<span class="pkg-badge">' + pkg.badge + '</span>' : '') +
     '<span class="pkg-check"><i class="fa-solid fa-check"></i></span>' +
@@ -704,10 +738,21 @@ PACKAGES.forEach(pkg=>{
     '<div class="pkg-name">' + pkg.name + '</div>' +
     '<div class="pkg-duration">' + pkg.duration + '</div>' +
     '<div class="pkg-price">' + pkg.price + (pkg.currency ? ' <small>' + pkg.currency + '</small>' : '') + '</div>';
-  card.addEventListener('click', ()=>{
+  function selectPackage(){
     state.selectedPkgId = pkg.id;
-    document.querySelectorAll('.pkg-card').forEach(c=>c.classList.remove('selected'));
+    document.querySelectorAll('.pkg-card').forEach(c=>{
+      c.classList.remove('selected');
+      c.setAttribute('aria-checked', 'false');
+    });
     card.classList.add('selected');
+    card.setAttribute('aria-checked', 'true');
+  }
+  card.addEventListener('click', selectPackage);
+  card.addEventListener('keydown', (event)=>{
+    if(event.key === 'Enter' || event.key === ' '){
+      event.preventDefault();
+      selectPackage();
+    }
   });
   attachRipple(card);
   pkgScroll.appendChild(card);
